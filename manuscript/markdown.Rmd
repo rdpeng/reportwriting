@@ -1,0 +1,197 @@
+# Markdown
+
+
+Markdown is a tool for writing for the web. In the words of its creator [John Gruber](http://daringfireball.net/)
+
+> "Markdown is a text-to-HTML conversion tool for web writers. Markdown allows you to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML)."
+
+Since its inception, Markdown has evolved to be widely adopted for a variety of purposes, far beyond writing for the web. In particular, the book you are reading was written in Markdown.
+
+
+The name "Markdown" is a play on the names of of many "markup" languages. Its key feature is that it can be read as-is, without any special formatting. Many markup languages, like HTML or LaTeX, require that numerous formatting elements (tags) be included in the text to instruct the program that will be formatting the text for reading on how to display the text. While this gives great control over the look and feel of the text to the writer, it can greatly obscure the source text itself, making the text difficult to read and edit. With HTML, some of the tag clutter was removed with the use of cascading style sheets (CSS), but there is still quite a bit of clutter in most HTML documents.
+
+The benefit of Markdown for writers is that it allows one to focus on writing as opposed to formatting. It has simple and minimal yet intuitive formatting elements and can be easily converted to valid HTML (and other formats) using existing tools. 
+
+Complete information about Markdown is available at the [Markdown web site](http://daringfireball.net/projects/markdown/) maintained by John Gruber. You'll notice that the web page is short. There's not much to describe! There's also some [background information](http://daringfireball.net/2004/03/dive_into_markdown) about Markdown at Gruber's site.
+
+
+## What is R Markdown?
+
+R markdown is the integration of R code with Markdown. Documents written in R Markdown have R coded nested inside of them, which allows one to to create documents containing "live" R code. R Markdown files cannot be evaluated using standard Markdown tools. Rather, R code is evaluated as part of the processing of the Markdown before the traditional Markdown tools are called. 
+
+R markdown can be converted to standard markdown using the [knitr](http://yihui.name/knitr/) package in R. Results from R code are inserted into Markdown document. Markdown can subsequently be converted to HTML using the [markdown](https://github.com/rstudio/markdown) package in R, but you seldom have to call this package explicitly.
+
+The use of R Markdown to create reproducible reports is now a core tool in *literate statistical programming* and has largely replaced previous tools. The key reason for its usefulness is the simplicity of Markdown as the main documentation language, the powerful support provided by the `knitr` package, and the integration of R Markdown into widely used products like RStudio.
+
+One co-benefit of using R Markdown is that any basic text editor can be used to create a document. No special editing tools are needed (the editor that comes with RStudio, for example, is quite reasonable). The R Markdown to Markdown to HTML work flow can be easily managed using [R Studio](http://rstudio.org) (but is not required). Lastly, R Markdown documents have the benefit that they are purely textual documents that can play well with version control systems that are primarily designed to track changes in text files.
+
+
+## Markdown Syntax
+
+Markdown has a very simple syntax that we will briefly review here.
+
+### Headings
+
+
+
+```markdown
+# This is a primary heading (think <h1> in HTML)
+## This is a secondary heading
+### This is a tertiary heading
+```
+
+
+### Italics
+
+
+
+```markdown
+*This text will appear italicized!*  
+_so will this text_
+```
+
+*This text will appear italicized!*  
+_so will this text_
+
+
+
+
+### Bold
+
+
+
+```markdown
+**This text will appear bold!**
+__as will this text__
+```
+
+
+**This text will appear bold!**  
+__as will this text__
+
+
+### Unordered Lists
+
+
+
+```markdown
+- first item in list
+- second item in list
+- third item in list
+```
+
+
+- first item in list
+- second item in list
+- third item in list
+
+
+
+
+
+### Ordered Lists
+
+
+```markdown
+1. first item in list
+2. second item in list
+3. third item in list
+```
+
+1. first item in list
+2. second item in list
+3. third item in list
+
+
+Note that you don't have to worry about the specific ordering of the *numbers* in the ordered list. As long as there are numbers there, Markdown will put them in the right order.
+
+The following Markdown source
+
+```
+1. first item in list
+2. second item in list
+4. Whoops! Forgot one
+3. third item in list
+```
+
+will get processed as
+
+1. first item in list
+2. second item in list
+4. Whoops! Forgot one
+3. third item in list
+
+
+### Links
+
+Inline links can be formatted with the following syntax.
+
+```markdown
+The number one school of the public health is the [Johns Hopkins Bloomberg School of Public Health](http://www.jhsph.edu/).
+
+The first thing you always want to do is [Download R](http://www.r-project.org/).
+
+The second thing you want to do is get [RStudio](http://www.rstudio.com/).
+```
+
+
+
+The number one school of the public health is the [Johns Hopkins Bloomberg School of Public Health](http://www.jhsph.edu/).
+
+The first thing you always want to do is [Download R](http://www.r-project.org/).
+
+The second thing you want to do is get [RStudio](http://www.rstudio.com/).
+
+Occasionally, have to put so many links into a document that the document starts getting difficult to read because of all the URLs. In that case, there is an alternate approach to linking that is akin to inserting footnotes.
+
+
+```markdown
+I spend so much time reading [R bloggers][1] and [Simply Statistics][2]!  
+
+[1]: http://www.r-bloggers.com/   "R bloggers"  
+[2]: http://simplystatistics.org/ "Simply Statistics"  
+```
+
+I spend so much time reading [R bloggers][1] and [Simply Statistics][2]!
+
+[1]: http://www.r-bloggers.com/   "R bloggers"
+[2]: http://simplystatistics.org/ "Simply Statistics"
+
+
+
+In the above text, the full links can be placed at the bottom of a document for convenience. The resulting formatted text is identical using both approaches, however, the source text will be easier to read because it is less cluttered.
+
+
+
+### Newlines
+
+Newlines require a double space after the end of a line.
+
+If you just hit "enter/return" at the end of a line this is what you get.
+
+```markdown
+First line
+Second line
+```
+
+First line
+Second line
+
+However, if you put **two spaces** after the end of the first line, this is what youget.
+
+```markdown
+First line
+Second line
+```
+
+First line  
+Second line
+
+
+
+## Markdown Resources
+
+- [The Offical Markdown Documentation](http://daringfireball.net/projects/markdown/basics)
+
+- [Github's Markdown Guide](https://help.github.com/articles/github-flavored-markdown)
+

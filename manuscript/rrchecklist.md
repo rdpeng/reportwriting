@@ -1,0 +1,226 @@
+# Reproducibility Check List
+
+
+
+
+
+Reproducibility can be more or less easy to achieve depending on the context, the scientific area, the complexity of a data analysis, and a variety of other factors. However, over time, I've developed a few rules of thumb that I think are useful for at least encouraging reproducibility, if not guaranteeing it. In this chapter, I put together a simple "check list" of ideas that I've developed in my experience doing data analysis and computational research.
+
+
+## Start With Good Science
+
+Good science, generally speaking, or a good *question*, is the key to any worthwhile investigation. The general rule of "garbage in, garbage out" applies here. If you do not start with a meaningful question, then no amount of data analysis or statistical machinery will be able to make the results interesting to you. If the question and the results are not interesting to you or your colleagues, there will be relatively little motivation to make the results reproducible. This is a problem.
+
+Having a coherent, focused question simplifies many problems and will make it easier to determine whether you are on the right track or if an error has occurred. Vague and broadly defined questions can fit many different scenarios and are more likely to encourage sloppiness and unclear thinking.
+
+Related to working on a problem that interests you is working with good collaborators. Collaborators that you work well with will reinforce good practices and will encourage you to do the best work. Ultimately, if you are uncomfortable with the people you are working with, or more seriously, if you do not completely *trust* the people you are working with, then there will be breakdowns in communication and things will get lost. If you don't feel comfortable (politely) challenging a colleague's work when needed, then bad work will make it through, which can lead to non-reproducible results. Working with the right people is an important, but often unmentioned, aspect of making work reproducible.
+
+
+## Don't Do Things By Hand
+
+If this chapter could be boiled down to one rule, it might be "Don't do things by hand". What do I mean by that? Here are a few examples that are common, but are bad practice:
+
+* Editing spreadsheets of data to "clean it up". Often this is doen to remove outliers, do quality assurance or quality control checks (QA/QC), or validating individual data entries
+
+* Editing tables or figures (e.g. rounding, formatting) to make then look better
+
+* Downloading data from a web site using a web browser
+
+* Moving data around your computer
+
+* Splitting or reformatting data files
+
+Often, the motiviation for doing all of the above things is that "We're just going to do this once." The thinking is that if the activity is only going to be done once, it doesn't need to be automated (i.e. programmed into a computer). 
+
+But programming a procedure into a computer is not necessarily about automation. It is also about *documentation*. The problem with things that are done by hand, is that things done by hand need to be precisely documented (this is harder than it sounds). Often, it can very difficult to communicate to someone what was done after the fact. It can be easy to miss a step that "isn't important" when in fact it is.
+
+### Don't Point And Click
+
+Pointing and clicking is obviously related to doing things by hand. Most modern operating systems have a windowing interface that allow you to click on menus that can lead to automated built-in routines. Many data processing and statistical analysis packages have graphical user interfaces (GUIs) that simplify the use of the program, but the actions you take with a GUI can be difficult for others to reproduce because there's not necessarily a log of what was clicked.
+
+Some GUIs for statistical analysis packages produce a log file or script which includes equivalent commands for reproducing the behavior of the GUI, but this is by no means the standard. In general, be careful with data analysis software that is highly *interactive*. There is often a trade-off between the ease of use of a software package and the tendency to lead to non-reproducible results.
+
+Of course, this doesn't mean that all interactive software. Some software has to be interactive, like text editors or word processors, and that's fine. It's just when the software must be used to *conduct data analysis*, you must be careful not to be seduced by the ease-of-use of an interactive interface. 
+
+
+## Teach a Computer
+
+The opposite of doing things by hand is teaching a computer to do something. Computers need very precise instructions to accomplish a task so there's no room for ambiguity. This is a Good Thing if your goal is to make your procedures and processes reproducible. If something needs to be done as part of your analysis or investigation, try to teach your computer to do it, *even if you only need to do it once*. In the end, teaching a computer to do something almost guarantees reproducibilty.
+
+### Example: Downloading data
+
+Downloadling datasets is something data scientists are constantly doing. But if you're using a web browser to download data, you're probably not downloading data in a reproducible way. Suppose you wanted to obtain a dataset to analyze from the UCI Machine Learning Repository. One way to do that by hand would be to
+
+1. Go to the UCI Machine Learning Repository at http://archive.ics.uci.edu/ml/
+
+2. Download the [Bike Sharing Dataset](http://archive.ics.uci.edu/ml/datasets/Bike+Sharing+Dataset) by clicking on the link to the Data Folder, then clicking on the link to the zip file of dataset, and choosing "Save Linked File As..." and then saving it to a folder on your computer
+
+But this involves doing things by hand! Normally, the interactive nature of the web browser is a great feature, but *not* when you need to download a dataset that is important to your analysis
+
+Another way to accomplish this task is to teach your computer to do the same thing using R:
+
+
+~~~~~~~~
+> download.file("http://archive.ics.uci.edu/ml/machine-learning-databases/00275/Bike-Sharing-Dataset.zip", 
++     "ProjectData/Bike-Sharing-Dataset.zip")
+~~~~~~~~
+
+Notice here that
+
+* The full URL to the dataset file is specified (no clicking through a
+  series of links)
+
+* The name of the file saved to your local computer is specified ("Bike-Sharing-Dataset.zip")
+
+* The directory in which the file was saved is specified ("ProjectData")
+
+* The code can always be executed in R (as long as link is available)
+
+Now that you've taught a computer to do this task, it is far more reproducible than writing down a series of instructions directing someone to use a web browser. In fact, the R code is a far more compact representation of this task.
+
+
+## Use Some Version Control
+
+Version control systems is not something we've explicitly covered in this book so far, so I won't go into great detail here. Briefly, version control systems are software systems designed to help you keep track of changes to a set of code files in a given project. They are primarily designed for software projects where code files are typically reasonably small text files, but they can also be applied to data analysis projects. Examples of popular version control systems these days are [git](http://git-scm.com), [subversion](http://subversion.apache.org) (svn), and [mercurial](https://mercurial.selenic.com) (hg).
+
+If there's one reason for using a version control system to track the changes to your data analysis project, it is that the version control system can help to **slow things down**. In many instances with data analyses, it's tempting to zoom ahead and start plowing into the data to find something interesting. This excitement is good, of course, but not at the expense of keeping track of what's happening. Version control systems can be helpful for reminding you that changes need to be tracked and notes need to be taken, if only to remind *yourself* of what happened a little be later (much less for communicating to team members).
+
+Version control systems have many benefits, such as being able to track snapshots of a project and to mark/tag major milestones. They also allow for simple collaboration across networks (internal or external) and for publishing your work. With complementary web sites like [GitHub](https://github.com), [BitBucket](https://bitbucket.org), and [SourceForge](http://sourceforge.net), it is now straightforward to publish your projects so that anyone can view your work. Most of these sites have some free tier that allows you to host your projects without any cost to you.
+
+
+## Keep Track of Your Software Environment
+
+If you work on a complex project involving many tools and datasets, the software and computing environment can play a critical role in determining whether your analysis is reproducible. In the extreme case, if your analysis depends on some custom proprietary software or hardware that only you possess, then obviously no one else will be able to reproduce your analysis. However, there are many cases short of that extreme one where the software and hardware environment in which a data analysis was conducted can be important for reproducibility.
+
+Here are a few things that you should keep in mind as you keep track of your environment.
+
+* **Computer architecture**: What kind of CPU does your computer use? Intel, AMD, ARM, etc.? And are you using graphical processing units (GPUs)?
+
+* **Operating system**: Are you using Windows, Mac OS, Linux / Unix, something else? The more obscure your operating system, the more difficult it might be to reproduce your work unless you do things in a cross-platform manner.
+
+* **Software toolchain**: This includes things like compilers, interpreters, the command shell, programming languages (C, Perl, Python, etc.), database backends, and any data analysis software.
+
+* **Supporting software and infrastructure**: Software libraries, R packages,
+  software dependencies
+
+* **External dependencies**: Your data analysis is likely to depend on things outside of your computer, like web sites, data repositories, remote databases, and software repositories.
+
+* **Version numbers**: Ideally, you should keep track of the version numbers for everything you use, if possible. This is particularly important for software and libraries because often certain versions of software do not work with other versions of software, so a mismatch in version numbers may prevent another person from reproducible your work. Communicating the appropriate version numbers to others can improve the chances of them reproducing what you've done.
+
+One important function in R that can be useful for documenting your R environment is the `sessionInfo()` function. This function displays various details about your R environment like the search path, which packages are loaded, the version number of R, the locale, and the operating system of your computer. For example, here's what it outputs for my environment.
+
+
+~~~~~~~~
+> sessionInfo()
+~~~~~~~~
+
+~~~~~~~~
+R version 3.2.2 RC (2015-08-08 r68921)
+Platform: x86_64-apple-darwin14.4.0 (64-bit)
+Running under: OS X 10.10.4 (Yosemite)
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  base     
+
+other attached packages:
+[1] knitr_1.10.5
+
+loaded via a namespace (and not attached):
+[1] magrittr_1.5  formatR_1.2   tools_3.2.2   stringi_0.5-5 stringr_1.0.0
+[6] evaluate_0.7 
+~~~~~~~~
+
+Including a call to `sessionInfo()` at the end of each report written in R (perhaps with markdown or knitr) can be useful for communicating to the reader what type of environment is needed to reproduce the contents of the report (it may not be necessary but it's likely sufficient for simple analyses).
+
+
+## Don't Save Output
+
+Saving output from various stages in a data analysis may seem like a responsible thing to do (what if the computer crashes), but it should be avoided if possible. The reason is that output files are often undocumented and the manner in which they were constructed can be difficult to reproduce. Better to save the inputs and code that were used to create a given piece of output rather than save the output itself. That way, if changes need to be made (or if output is lost), you can simply re-run the code with the appropriate input. 
+
+Outputs that you should avoid saving are things like tables, figures, summaries, and processed data. The one exception here is if it took a very long time to create that output. Then it might make sense to *temporarily* save some output for efficiency purposes. But in those cases, it's important to document carefully how the output was generated, perhaps via a version control system. Ultimately, if an output file cannot be easily connected with the means by which it was created, then it is not reproducible.
+
+
+## Set Your Seed
+
+This is a niche issue that may not be generally applicable, but is often the source of non-reproducible results in statistical output or simulations. Many sophisticated statistical routines these days depend on the generation of random numbers. Think Markov chain Monte Carlo, random forests, and bootstrapping. Any procedure that depends on randomness will not generate the exact same output if you run it twice (the very definition of non-reproducibility). However, on a computer, random numbers are not truly random, rather they are pseudo-random. Therefore, it is possible to exactly reconstruct a sequence of pseudo-random numbers if you have the initial *seed*. 
+
+In R you can use the `set.seed()` function to set the random number generator seed and to specify which random number generator to use (see `?set.seed` for details). Setting the seed allows for the stream of random numbers to be exactly reproducible at a later date. Whenever you generate random numbers for a non-trivial purpose, **always set the seed** at the beginning of your code.
+
+Here's an example of some random numbers.
+
+
+~~~~~~~~
+> rnorm(5)
+~~~~~~~~
+
+~~~~~~~~
+[1]  2.22414093  0.09524444 -1.16593756  0.59730725  1.34369099
+~~~~~~~~
+
+There is now no way for me to go back (via code) and re-generate those numbers because I didn't set the seed. The next time I call `rnorm()` it will generate different numbers.
+
+
+~~~~~~~~
+> rnorm(5)
+~~~~~~~~
+
+~~~~~~~~
+[1] -1.9432379  0.6078967  1.8811491 -1.0447159  0.3690495
+~~~~~~~~
+
+However, if I set the seed first, I can always re-generate the same numbers if needed.
+
+
+~~~~~~~~
+> set.seed(10)
+> rnorm(5)
+~~~~~~~~
+
+~~~~~~~~
+[1]  0.01874617 -0.18425254 -1.37133055 -0.59916772  0.29454513
+~~~~~~~~
+
+And again.
+
+
+~~~~~~~~
+> set.seed(10)
+> rnorm(5)
+~~~~~~~~
+
+~~~~~~~~
+[1]  0.01874617 -0.18425254 -1.37133055 -0.59916772  0.29454513
+~~~~~~~~
+
+
+
+## Think About the Entire Pipeline
+
+Data analysis is a lengthy process, starting from obtaining data all the way to generating results and communicating output. It is not just fitting a few prediction models or creating tables, figures, and reports. Typically, there will be raw data, processed or analytic data, analysis results, and then a final report. In addition to all that there will be code files that correspond to each of those transitions. They key thing to remember is that *how you got the end is just as important as the end itself*. The more of the *entire* data analysis pipeline you can make reproducible, the better for everyone (most importantly, yourself).
+
+
+
+
+
+## Summary
+
+Here is the basic reproducibility check list:
+
+* Are we doing good science?
+
+* Was any part of this analysis done by hand?If so, are those parts *precisely* document? Does the documentation match reality?
+
+* Have we taught a computer to do as much as possible (i.e. coded)?
+
+* Are we using a version control system?
+
+* Have we documented our software environment?
+
+* Have we saved any output that we cannot reconstruct from original
+  data + code?
+
+* How far back in the analysis pipeline can we go before our results
+  are no longer (automatically) reproducible?
